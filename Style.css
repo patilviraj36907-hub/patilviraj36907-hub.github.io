@@ -1,40 +1,64 @@
-/* Page background and font */
 body {
-  font-family: Arial, sans-serif;
-  background: #0a0a0a;
-  color: #f2f2f2;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f4f4f4, #007bff);
+    color: #333;
 }
 
-/* Header */
 header {
-  background: #111;
-  padding: 30px;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #e60000;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-/* Main content section */
-.main-content {
-  margin: 40px auto;
-  padding: 20px;
-  max-width: 900px;
+h1 {
+    color: #007bff;
 }
 
-h2 {
-  margin-top: 30px;
-  color: #ff3366;
+.model {
+    margin-bottom: 40px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Images */
-img.car-img {
-  width: 100%;
-  max-width: 800px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+.model:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.model img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
   margin: 15px 0;
 }
 

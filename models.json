@@ -1,0 +1,16 @@
+[
+    {
+        "name": "BMW M2",
+        "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/m2-coupe/overview/desktop/BMW-MY23-M2-Coupe-Overview-Desktop.jpg",
+        "engine": "3.0L Twin-Turbo Inline-6",
+        "horsepower": "405 hp",
+        "torque": "406 lb-ft",
+        "zeroToSixty": "4.1 seconds",
+        "topSpeed": "155 mph (electronically limited)",
+        "transmission": "6-Speed Manual or 8-Speed Automatic",
+        "drivetrain": "Rear-Wheel Drive",
+        "price": "$58,900",
+        "funFact": "The M2 is the most affordable entry into the M lineup, perfect for track days!"
+    },
+    // ... (Add similar funFact to all models)
+]

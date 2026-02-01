@@ -1,0 +1,47 @@
+/* Page background and font */
+body {
+  font-family: Arial, sans-serif;
+  background: #0a0a0a;
+  color: #f2f2f2;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+header {
+  background: #111;
+  padding: 30px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e60000;
+}
+
+/* Main content section */
+.main-content {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 900px;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #ff3366;
+}
+
+/* Images */
+img.car-img {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+  margin: 15px 0;
+}
+
+/* Footer */
+footer {
+  background: #111;
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #aaa;
+}

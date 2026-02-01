@@ -5,188 +5,356 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMW M Series Showcase</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Video Background */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        #content-overlay {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        .model {
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 20px;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            color: #333;
+        }
+
+        .model:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(0,123,255,0.3);
+            filter: brightness(1.1);
+        }
+
+        .model img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .model:hover img {
+            transform: scale(1.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            transition: opacity 0.3s ease;
+        }
+
+        .model.flipped table {
+            opacity: 0;
+        }
+
+        .details {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,123,255,0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+
+        .model.flipped .details {
+            display: block;
+            transform: rotateY(0deg);
+        }
+
+        .model .front {
+            backface-visibility: hidden;
+        }
+
+        .model.flipped .front {
+            transform: rotateY(180deg);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(242,242,242,0.8);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(51,51,51,0.8);
+            color: white;
+        }
+
+        .model.hidden {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        .model.visible {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+    </style>
 </head>
 <body>
-    <header class="animate__animated animate__fadeInDown">
-        <h1>BMW M Series Models and Specs</h1>
-        <p>Welcome to the ultimate showcase of BMW's high-performance M Series. Data is loaded dynamically for a smooth experience.</p>
-    </header>
-    <main id="models-container">
-        <!-- Models will be loaded here via JavaScript -->
-    </main>
-    <footer>
-        <p>For the latest updates, visit the official BMW website. Prices are approximate.</p>
-    </footer>
-    <script src="script.js"></script>
-</body>
-</html>
-    <div class="model">
-        <h2>BMW M3</h2>
-        <img src="https://example.com/bmw-m3.jpg" alt="BMW M3" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>3.0L Twin-Turbo Inline-6</td></tr>
-            <tr><td>Horsepower</td><td>473 hp</td></tr>
-            <tr><td>Torque</td><td>406 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.9 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>6-Speed Manual or 8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>Rear-Wheel Drive</td></tr>
-            <tr><td>Price (Starting)</td><td>$70,900</td></tr>
-        </table>
+    <!-- Video Background -->
+    <video autoplay muted loop id="bg-video">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div id="content-overlay">
+        <header class="animate__animated animate__fadeInDown animate__pulse">
+            <h1>BMW M Series Models and Specs</h1>
+            <p>Welcome to the ultimate showcase of BMW's high-performance M Series. Click on a model for more details!</p>
+        </header>
+        <main id="models-container">
+            <!-- Models will be loaded here via JavaScript -->
+        </main>
+        <footer>
+            <p>For the latest updates, visit the official BMW website. Prices are approximate.</p>
+        </footer>
     </div>
+    <script>
+        // Embedded car data (simulates SQL/database)
+        const modelsData = [
+            {
+                "name": "BMW M2",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/m2-coupe/overview/desktop/BMW-MY23-M2-Coupe-Overview-Desktop.jpg",
+                "engine": "3.0L Twin-Turbo Inline-6",
+                "horsepower": "405 hp",
+                "torque": "406 lb-ft",
+                "zeroToSixty": "4.1 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "6-Speed Manual or 8-Speed Automatic",
+                "drivetrain": "Rear-Wheel Drive",
+                "price": "$58,900",
+                "funFact": "The M2 is the most affordable entry into the M lineup, perfect for track days!"
+            },
+            {
+                "name": "BMW M3",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/m3-sedan/overview/desktop/BMW-MY23-M3-Sedan-Overview-Desktop.jpg",
+                "engine": "3.0L Twin-Turbo Inline-6",
+                "horsepower": "473 hp",
+                "torque": "406 lb-ft",
+                "zeroToSixty": "3.9 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "6-Speed Manual or 8-Speed Automatic",
+                "drivetrain": "Rear-Wheel Drive",
+                "price": "$70,900",
+                "funFact": "The M3 has won multiple racing championships, including DTM!"
+            },
+            {
+                "name": "BMW M4",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/m4-coupe/overview/desktop/BMW-MY23-M4-Coupe-Overview-Desktop.jpg",
+                "engine": "3.0L Twin-Turbo Inline-6",
+                "horsepower": "473 hp",
+                "torque": "406 lb-ft",
+                "zeroToSixty": "3.8 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "6-Speed Manual or 8-Speed Automatic",
+                "drivetrain": "Rear-Wheel Drive",
+                "price": "$73,200",
+                "funFact": "The M4 Coupe offers convertible options for open-top thrills!"
+            },
+            {
+                "name": "BMW M5",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/m5-sedan/overview/desktop/BMW-MY23-M5-Sedan-Overview-Desktop.jpg",
+                "engine": "4.4L Twin-Turbo V8",
+                "horsepower": "600 hp",
+                "torque": "553 lb-ft",
+                "zeroToSixty": "3.1 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$104,100",
+                "funFact": "The M5 is known for its V8 roar and luxury sedan performance!"
+            },
+            {
+                "name": "BMW M6 (Discontinued)",
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/BMW_M6_Gran_Coupe_F13_IMG_0195.jpg/1200px-BMW_M6_Gran_Coupe_F13_IMG_0195.jpg",
+                "engine": "4.4L Twin-Turbo V8",
+                "horsepower": "560 hp",
+                "torque": "500 lb-ft",
+                "zeroToSixty": "3.9 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "7-Speed Dual-Clutch Automatic",
+                "drivetrain": "Rear-Wheel Drive",
+                "price": "N/A (Discontinued)",
+                "funFact": "The M6 was a grand tourer with coupe elegance!"
+            },
+            {
+                "name": "BMW M8",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/m8-gran-coupe/overview/desktop/BMW-MY23-M8-Gran-Coupe-Overview-Desktop.jpg",
+                "engine": "4.4L Twin-Turbo V8",
+                "horsepower": "617 hp",
+                "torque": "553 lb-ft",
+                "zeroToSixty": "3.1 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$130,000",
+                "funFact": "The M8 is the flagship with Gran Coupe and convertible variants!"
+            },
+            {
+                "name": "BMW X3 M",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/x3-m/overview/desktop/BMW-MY23-X3-M-Overview-Desktop.jpg",
+                "engine": "3.0L Twin-Turbo Inline-6",
+                "horsepower": "473 hp",
+                "torque": "442 lb-ft",
+                "zeroToSixty": "4.1 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$74,900",
+                "funFact": "The X3 M brings M performance to the SUV segment!"
+            },
+            {
+                "name": "BMW X4 M",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/x4-m/overview/desktop/BMW-MY23-X4-M-Overview-Desktop.jpg",
+                "engine": "3.0L Twin-Turbo Inline-6",
+                "horsepower": "473 hp",
+                "torque": "442 lb-ft",
+                "zeroToSixty": "4.1 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$77,900",
+                "funFact": "The X4 M has a coupe-like roofline for sporty appeal!"
+            },
+            {
+                "name": "BMW X5 M",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/x5-m/overview/desktop/desktop/BMW-MY23-X5-M-Overview-Desktop.jpg",
+                "engine": "4.4L Twin-Turbo V8",
+                "horsepower": "600 hp",
+                "torque": "553 lb-ft",
+                "zeroToSixty": "3.4 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$104,100",
+                "funFact": "The X5 M is a high-performance luxury SUV!"
+            },
+            {
+                "name": "BMW X6 M",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/x6-m/overview/desktop/BMW-MY23-X6-M-Overview-Desktop.jpg",
+                "engine": "4.4L Twin-Turbo V8",
+                "horsepower": "600 hp",
+                "torque": "553 lb-ft",
+                "zeroToSixty": "3.5 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$107,100",
+                "funFact": "The X6 M combines coupe styling with SUV power!"
+            },
+            {
+                "name": "BMW XM",
+                "image": "https://www.bmwusa.com/content/dam/bmwusa/common/vehicles/2023/my23/xm/overview/desktop/BMW-MY23-XM-Overview-Desktop.jpg",
+                "engine": "4.4L Twin-Turbo V8 + Electric Motor (Plug-in Hybrid)",
+                "horsepower": "738 hp (Combined)",
+                "torque": "737 lb-ft",
+                "zeroToSixty": "3.3 seconds",
+                "topSpeed": "155 mph (electronically limited)",
+                "transmission": "8-Speed Automatic",
+                "drivetrain": "All-Wheel Drive (xDrive)",
+                "price": "$159,000",
+                "funFact": "The XM is BMW's first high-performance hybrid SUV!"
+            }
+        ];
 
-    <div class="model">
-        <h2>BMW M4</h2>
-        <img src="https://example.com/bmw-m4.jpg" alt="BMW M4" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>3.0L Twin-Turbo Inline-6</td></tr>
-            <tr><td>Horsepower</td><td>473 hp</td></tr>
-            <tr><td>Torque</td><td>406 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.8 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>6-Speed Manual or 8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>Rear-Wheel Drive</td></tr>
-            <tr><td>Price (Starting)</td><td>$73,200</td></tr>
-        </table>
-    </div>
+        // Load models dynamically
+        const container = document.getElementById('models-container');
+        modelsData.forEach((model, index) => {
+            const modelDiv = document.createElement('div');
+            modelDiv.className = 'model animate__animated animate__fadeInUp animate__bounce hidden';
+            modelDiv.style.animationDelay = `${index * 0.2}s`;
+            modelDiv.innerHTML = `
+                <div class="front">
+                    <h2>${model.name}</h2>
+                    <img src="${model.image}" alt="${model.name}" />
+                    <table>
+                        <tr><th>Spec</th><th>Detail</th></tr>
+                        <tr><td>Engine</td><td>${model.engine}</td></tr>
+                        <tr><td>Horsepower</td><td>${model.horsepower}</td></tr>
+                        <tr><td>Torque</td><td>${model.torque}</td></tr>
+                        <tr><td>0-60 mph</td><td>${model.zeroToSixty}</td></tr>
+                        <tr><td>Top Speed</td><td>${model.topSpeed}</td></tr>
+                        <tr><td>Transmission</td><td>${model.transmission}</td></tr>
+                        <tr><td>Drivetrain</td><td>${model.drivetrain}</td></tr>
+                        <tr><td>Price (Starting)</td><td>${model.price}</td></tr>
+                    </table>
+                </div>
+                <div class="details">
+                    <h3>Fun Fact</h3>
+                    <p>${model.funFact}</p>
+                    <button onclick="flipCard(this)">Back</button>
+                </div>
+            `;
+            modelDiv.addEventListener('click', () => flipCard(modelDiv));
+            container.appendChild(modelDiv);
+        });
 
-    <div class="model">
-        <h2>BMW M5</h2>
-        <img src="https://example.com/bmw-m5.jpg" alt="BMW M5" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>4.4L Twin-Turbo V8</td></tr>
-            <tr><td>Horsepower</td><td>600 hp</td></tr>
-            <tr><td>Torque</td><td>553 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.1 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$104,100</td></tr>
-        </table>
-    </div>
+        // Scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.classList.remove('hidden');
+                }
+            });
+        });
+        document.querySelectorAll('.model').forEach(model => observer.observe(model));
 
-    <div class="model">
-        <h2>BMW M6 (Discontinued, but included for completeness)</h2>
-        <img src="https://example.com/bmw-m6.jpg" alt="BMW M6" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>4.4L Twin-Turbo V8</td></tr>
-            <tr><td>Horsepower</td><td>560 hp</td></tr>
-            <tr><td>Torque</td><td>500 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.9 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>7-Speed Dual-Clutch Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>Rear-Wheel Drive</td></tr>
-            <tr><td>Price (Starting)</td><td>N/A (Discontinued)</td></tr>
-        </table>
-    </div>
-
-    <div class="model">
-        <h2>BMW M8</h2>
-        <img src="https://example.com/bmw-m8.jpg" alt="BMW M8" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>4.4L Twin-Turbo V8</td></tr>
-            <tr><td>Horsepower</td><td>617 hp</td></tr>
-            <tr><td>Torque</td><td>553 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.1 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$130,000</td></tr>
-        </table>
-    </div>
-
-    <div class="model">
-        <h2>BMW X3 M</h2>
-        <img src="https://example.com/bmw-x3m.jpg" alt="BMW X3 M" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>3.0L Twin-Turbo Inline-6</td></tr>
-            <tr><td>Horsepower</td><td>473 hp</td></tr>
-            <tr><td>Torque</td><td>442 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>4.1 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$74,900</td></tr>
-        </table>
-    </div>
-
-    <div class="model">
-        <h2>BMW X4 M</h2>
-        <img src="https://example.com/bmw-x4m.jpg" alt="BMW X4 M" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>3.0L Twin-Turbo Inline-6</td></tr>
-            <tr><td>Horsepower</td><td>473 hp</td></tr>
-            <tr><td>Torque</td><td>442 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>4.1 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$77,900</td></tr>
-        </table>
-    </div>
-
-    <div class="model">
-        <h2>BMW X5 M</h2>
-        <img src="https://example.com/bmw-x5m.jpg" alt="BMW X5 M" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>4.4L Twin-Turbo V8</td></tr>
-            <tr><td>Horsepower</td><td>600 hp</td></tr>
-            <tr><td>Torque</td><td>553 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.4 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$104,100</td></tr>
-        </table>
-    </div>
-
-    <div class="model">
-        <h2>BMW X6 M</h2>
-        <img src="https://example.com/bmw-x6m.jpg" alt="BMW X6 M" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>4.4L Twin-Turbo V8</td></tr>
-            <tr><td>Horsepower</td><td>600 hp</td></tr>
-            <tr><td>Torque</td><td>553 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.5 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$107,100</td></tr>
-        </table>
-    </div>
-
-    <div class="model">
-        <h2>BMW XM</h2>
-        <img src="https://example.com/bmw-xm.jpg" alt="BMW XM" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>4.4L Twin-Turbo V8 + Electric Motor (Plug-in Hybrid)</td></tr>
-            <tr><td>Horsepower</td><td>738 hp (Combined)</td></tr>
-            <tr><td>Torque</td><td>737 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>3.3 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>All-Wheel Drive (xDrive)</td></tr>
-            <tr><td>Price (Starting)</td><td>$159,000</td></tr>
-        </table>
-    </div>
-
-    <p>For the latest updates or more details, visit the official BMW website. Note: Prices are approximate and may vary by region.</p>
-</body>
-                                     </html>
-<footer>
-  Created on GitHub Pages 🚀
-</footer>
-
+        function flipCard(element) {
+            element.classList.toggle('flipped');
+        }
+    </script>
 </body>
 </html>

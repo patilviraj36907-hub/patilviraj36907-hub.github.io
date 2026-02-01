@@ -4,37 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMW M Series Showcase</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
-        h1 { color: #007bff; text-align: center; }
-        .model { margin-bottom: 40px; border: 1px solid #ddd; padding: 20px; background-color: white; border-radius: 8px; }
-        .model h2 { color: #333; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        img { max-width: 100%; height: auto; margin-bottom: 10px; }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>BMW M Series Models and Specs</h1>
-    <p>Welcome to the ultimate showcase of BMW's high-performance M Series. Below, you'll find details on all current models, including engines, performance specs, and more. Data is sourced from official BMW specifications.</p>
-
-    <div class="model">
-        <h2>BMW M2</h2>
-        <img src="https://example.com/bmw-m2.jpg" alt="BMW M2" /> <!-- Replace with actual image URL -->
-        <table>
-            <tr><th>Spec</th><th>Detail</th></tr>
-            <tr><td>Engine</td><td>3.0L Twin-Turbo Inline-6</td></tr>
-            <tr><td>Horsepower</td><td>405 hp</td></tr>
-            <tr><td>Torque</td><td>406 lb-ft</td></tr>
-            <tr><td>0-60 mph</td><td>4.1 seconds</td></tr>
-            <tr><td>Top Speed</td><td>155 mph (electronically limited)</td></tr>
-            <tr><td>Transmission</td><td>6-Speed Manual or 8-Speed Automatic</td></tr>
-            <tr><td>Drivetrain</td><td>Rear-Wheel Drive</td></tr>
-            <tr><td>Price (Starting)</td><td>$58,900</td></tr>
-        </table>
-    </div>
-
+    <header class="animate__animated animate__fadeInDown">
+        <h1>BMW M Series Models and Specs</h1>
+        <p>Welcome to the ultimate showcase of BMW's high-performance M Series. Data is loaded dynamically for a smooth experience.</p>
+    </header>
+    <main id="models-container">
+        <!-- Models will be loaded here via JavaScript -->
+    </main>
+    <footer>
+        <p>For the latest updates, visit the official BMW website. Prices are approximate.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
     <div class="model">
         <h2>BMW M3</h2>
         <img src="https://example.com/bmw-m3.jpg" alt="BMW M3" /> <!-- Replace with actual image URL -->
